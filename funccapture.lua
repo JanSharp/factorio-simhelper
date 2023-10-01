@@ -1,6 +1,10 @@
 
 ---cSpell:ignore upvalue, upval, upvals, userdata, funcs, nups, funccapture, simhelper, metatable, metatables
 
+if __simhelper_funccapture then
+  return __simhelper_funccapture.api
+end
+
 ---@class TableField
 ---@field key Value
 ---@field value Value
@@ -44,6 +48,7 @@ end
 if not step_ignore then
   step_ignore = function(func) return func end
 end
+step_ignore = function(func) return func end
 
 -- NOTE: tables and functions as keys are currently not supported,
 -- though with some work at least _some_ of them could be supported.
@@ -464,8 +469,10 @@ local capture = step_ignore(function(main_func, custom_restorers)
   return result_string
 end)
 
-return {
+local api = {
   capture = capture,
   ignore_table_in_env = ignore_table_in_env,
   un_ignore_table_in_env = un_ignore_table_in_env,
 }
+__simhelper_funccapture.api = api
+return api
