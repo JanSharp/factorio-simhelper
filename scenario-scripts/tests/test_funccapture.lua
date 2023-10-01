@@ -483,6 +483,7 @@ add_test{
   run = function()
     -- arrange
     local value = setmetatable({}, {__pairs = function()
+      ---@diagnostic disable-next-line: missing-return
       assert(false, "__pairs got called")
     end})
     local function func()
